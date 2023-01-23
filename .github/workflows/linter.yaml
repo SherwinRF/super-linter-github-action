@@ -23,7 +23,7 @@ jobs:
 
       - name: Lint Code Base
         uses: github/super-linter@v4.10.1
-        # continue-on-error: true
+        continue-on-error: true
         id: super-linter-section
         env:
           VALIDATE_ALL_CODEBASE: true
@@ -46,6 +46,8 @@ jobs:
 
   report:
     needs: build
+    # if: failure() 
+    name: Create Issue if Error
     runs-on: ubuntu-latest
     steps:
       # - name: Get build artifacts
