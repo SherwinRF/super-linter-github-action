@@ -29,7 +29,7 @@ jobs:
 
       - name: Lint Code Base
         uses: github/super-linter@v4.10.1
-        continue-on-error: true
+        # continue-on-error: true
         id: super-linter-section
         env:
           VALIDATE_ALL_CODEBASE: true
@@ -43,7 +43,9 @@ jobs:
         id: save-output
         # run: echo "output-file=$(echo ${{ steps.super-linter-section.outputs.stdout }})" >> $GITHUB_OUTPUT
         run: echo "test-output=$(echo $RANDOM)" >> $GITHUB_OUTPUT
-        # run: find outputs/*.txt -type f -execdir echo '::set-output name=output-file::{}' ';'
+      
+      - name: Save Linter Output 2
+        run: echo "test-output=$(echo $RANDOM)" >> .github/my-outputs/output-file.txt
 
       - name: Upload Linter Output
         uses: actions/upload-artifact@v3
@@ -54,7 +56,7 @@ jobs:
   # ==== SECOND JOB: REPORTING ISSUES ====
   report:
     needs: build
-    # if: failure() 
+    if: failure() 
     name: Create Issue if Error
     runs-on: ubuntu-latest
     steps:
