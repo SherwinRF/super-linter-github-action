@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       output-file: ${{ steps.save-output.outputs.output-file }}
+      test-output: ${{ steps.save-output.outputs.test-output }}
 
     steps:
       - name: Checkout Code
@@ -40,6 +41,7 @@ jobs:
       - name: Save Linter Output
         id: save-output
         run: echo "output-file=$(echo ${{ steps.super-linter-section.outputs.stdout }})" >> $GITHUB_OUTPUT
+        run: echo "test-output=$(echo $RANDOM)" >> $GITHUB_OUTPUT
         # run: find outputs/*.txt -type f -execdir echo '::set-output name=output-file::{}' ';'
 
       - name: Upload Linter Output
@@ -60,8 +62,8 @@ jobs:
       #     name: dist-files
       # - name: Output contents
       #   run: ls
-      - name: Output of output-file
-        run: echo "${{ needs.build.outputs.output-file }}"
+      - name: Output of test-output
+        run: echo "${{ needs.build.outputs.test-output }}"
       # - name: Deploy
       #   run: echo "Deploying..."
       
