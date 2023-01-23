@@ -39,7 +39,7 @@ jobs:
       
       - name: Save Linter Output
         id: save-output
-        run: echo "This is My Output!!" >> $GITHUB_OUTPUT
+        run: echo "output-file=$(echo ${{ steps.super-linter-section.outputs.stdout }})" >> $GITHUB_OUTPUT
         # run: find outputs/*.txt -type f -execdir echo '::set-output name=output-file::{}' ';'
 
       - name: Upload Linter Output
