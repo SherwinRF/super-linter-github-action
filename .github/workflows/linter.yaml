@@ -1,4 +1,4 @@
-name: Lint Code Base
+name: Super-Linter Check
 
 on:
   push:
@@ -6,6 +6,10 @@ on:
     # Remove the line above to run when pushing to master
   pull_request:
     branches: [master]
+
+permissions:
+  contents: read
+  issues: write 
 
 jobs:
   build:
@@ -35,7 +39,7 @@ jobs:
       
       - name: Save Linter Output
         id: save-output
-        run: echo ${{ steps.super-linter-section.outputs.stdout }} >> $GITHUB_OUTPUT
+        run: echo "This is My Output!!" >> $GITHUB_OUTPUT
         # run: find outputs/*.txt -type f -execdir echo '::set-output name=output-file::{}' ';'
 
       - name: Upload Linter Output
@@ -65,8 +69,6 @@ jobs:
         uses: actions/checkout@v2
       
       - name: create an issue
-        uses: dacbd/create-issue-action@main
-        with:
-          token: ${{ github.token }}
-          title: Simple test issue
-          body: my new issue
+        uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
