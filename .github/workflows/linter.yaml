@@ -11,8 +11,8 @@ jobs:
   build:
     name: Lint Code Base
     runs-on: ubuntu-latest
-    # outputs:
-    #   output-file: ${{ steps.publish.outputs.output-file }}
+    outputs:
+      output-file: ${{ steps.publish.outputs.output-file }}
 
     steps:
       - name: Checkout Code
@@ -23,7 +23,7 @@ jobs:
 
       - name: Lint Code Base
         uses: github/super-linter@v4.10.1
-        continue-on-error: true
+        # continue-on-error: true
         id: super-linter-section
         env:
           VALIDATE_ALL_CODEBASE: true
@@ -35,7 +35,7 @@ jobs:
       
       - name: Save Linter Output
         id: save-output
-        run: echo ${{ steps.super-linter-section.outputs.stdout }}  >> outputs/output-file.txt
+        run: echo "${{ steps.super-linter-section.outputs.* }}" >> $GITHUB_OUTPUT
         # run: find outputs/*.txt -type f -execdir echo '::set-output name=output-file::{}' ';'
 
       - name: Upload Linter Output
@@ -43,3 +43,18 @@ jobs:
         with:
           name: linter-output
           path: outputs
+
+  report:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # - name: Get build artifacts
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: dist-files
+      # - name: Output contents
+      #   run: ls
+      - name: 
+        run: echo "${{ needs.build.outputs.output-file }}"
+      # - name: Deploy
+      #   run: echo "Deploying..."
