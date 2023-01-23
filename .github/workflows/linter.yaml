@@ -12,7 +12,7 @@ jobs:
     name: Lint Code Base
     runs-on: ubuntu-latest
     outputs:
-      output-file: ${{ steps.super-linter-section.outputs.output-file }}
+      output-file: ${{ steps.publish.outputs.output-file }}
 
     steps:
       - name: Checkout Code
@@ -25,7 +25,6 @@ jobs:
         uses: github/super-linter@v4.10.1
         continue-on-error: true
         id: super-linter-section
-        run: find outputs/*.txt -type f -execdir echo '::set-output name=output-file::{}' ';'
         env:
           VALIDATE_ALL_CODEBASE: true
           # VALIDATE_JAVASCRIPT_ES: true
@@ -34,9 +33,9 @@ jobs:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      # - name: Publish Linter Output
-      #   id: publish
-      #   run: find outputs/*.txt -type f -execdir echo '::set-output name=output-file::{}' ';'
+      - name: Publish Linter Output
+        id: publish
+        run: find outputs/*.txt -type f -execdir echo '::set-output name=output-file::{}' ';'
 
       - name: Upload Linter Output
         uses: actions/upload-artifact@v3
