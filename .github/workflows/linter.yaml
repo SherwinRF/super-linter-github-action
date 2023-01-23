@@ -16,7 +16,7 @@ jobs:
     name: Lint Code Base
     runs-on: ubuntu-latest
     outputs:
-      output-file: ${{ steps.save-output.outputs.output-file }}
+      # output-file: ${{ steps.save-output.outputs.output-file }}
       test-output: ${{ steps.save-output.outputs.test-output }}
 
     steps:
@@ -40,7 +40,7 @@ jobs:
       
       - name: Save Linter Output
         id: save-output
-        run: echo "output-file=$(echo ${{ steps.super-linter-section.outputs.stdout }})" >> $GITHUB_OUTPUT
+        # run: echo "output-file=$(echo ${{ steps.super-linter-section.outputs.stdout }})" >> $GITHUB_OUTPUT
         run: echo "test-output=$(echo $RANDOM)" >> $GITHUB_OUTPUT
         # run: find outputs/*.txt -type f -execdir echo '::set-output name=output-file::{}' ';'
 
